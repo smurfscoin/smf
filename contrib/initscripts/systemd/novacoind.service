@@ -1,0 +1,11 @@
+[Unit]
+Description=SmurfsCoin daemon serivce
+After=network.target
+
+[Service]
+Type=simple
+User=SmurfsCoin
+ExecStart=/opt/SmurfsCoin/SmurfsCoind
+
+[Install]
+WantedBy=multi-user.target

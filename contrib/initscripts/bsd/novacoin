@@ -1,0 +1,68 @@
+#!/bin/sh
+
+# PROVIDE: SmurfsCoin
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf.local or /etc/rc.conf
+# to enable this service:
+#
+# SmurfsCoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable SmurfsCoin service.
+# SmurfsCoin_config (path): Set to /usr/local/etc/SmurfsCoin.conf by default.
+# SmurfsCoin_user:  The user account SmurfsCoin daemon runs as. It uses 'root' user by default.
+# SmurfsCoin_group: The group account SmurfsCoin daemon runs as. It uses 'wheel' group by default.
+# SmurfsCoin_datadir (str): Default to "/var/db/SmurfsCoin". Base data directory.
+
+. /etc/rc.subr
+
+name=SmurfsCoin
+rcvar=SmurfsCoin_enable
+
+: ${SmurfsCoin_enable:=NO}
+: ${SmurfsCoin_config=/usr/local/etc/SmurfsCoin.conf}
+: ${SmurfsCoin_datadir=/var/db/SmurfsCoin}
+: ${SmurfsCoin_user="root"}
+: ${SmurfsCoin_group="wheel"}
+
+required_files=${SmurfsCoin_config}
+command=/usr/local/bin/SmurfsCoind
+SmurfsCoin_chdir=${SmurfsCoin_datadir}
+pidfile="${SmurfsCoin_datadir}/SmurfsCoind.pid"
+stop_cmd=SmurfsCoin_stop
+command_args="-conf=${SmurfsCoin_config} -datadir=${SmurfsCoin_datadir} -daemon -pid=${pidfile}"
+start_precmd="${name}_prestart"
+
+SmurfsCoin_create_datadir()
+{
+	echo "Creating data directory"
+	eval mkdir -p ${SmurfsCoin_datadir}
+	[ $? -eq 0 ] && chown -R ${SmurfsCoin_user}:${SmurfsCoin_group} ${SmurfsCoin_datadir}
+}
+
+SmurfsCoin_prestart()
+{
+	if [ ! -d "${SmurfsCoin_datadir}/." ]; then
+		SmurfsCoin_create_datadir || return 1
+	fi
+}
+
+SmurfsCoin_requirepidfile()
+{
+	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
+		echo "${name} not running? (check $pidfile)."
+		exit 1
+	fi
+}
+
+SmurfsCoin_stop()
+{
+    SmurfsCoin_requirepidfile
+
+	echo "Stopping ${name}."
+	eval ${command} -conf=${SmurfsCoin_config} -datadir=${SmurfsCoin_datadir} stop
+	wait_for_pids ${rc_pid}
+}
+
+load_rc_config $name
+run_rc_command "$1"

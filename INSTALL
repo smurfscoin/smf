@@ -1,0 +1,9 @@
+Building SmurfsCoin
+
+See doc/readme-qt.rst for instructions on building SmurfsCoin Qt,
+the intended-for-end-users, nice-graphical-interface, reference
+implementation of SmurfsCoin.
+
+See doc/build-*.txt for instructions on building SmurfsCoind,
+the intended-for-services, no-graphical-interface, reference
+implementation of SmurfsCoin.

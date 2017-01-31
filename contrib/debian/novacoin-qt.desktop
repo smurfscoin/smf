@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=SmurfsCoin
+Comment=SmurfsCoin P2P Cryptocurrency
+Comment[ru]=SmurfsCoin, P2P криптовалюта
+Comment[fr]=SmurfsCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=SmurfsCoin, eşten eşe kriptografik sanal para birimi
+Exec=/usr/bin/SmurfsCoin-qt
+Terminal=false
+Type=Application
+Icon=/usr/share/pixmaps/SmurfsCoin80.xpm
+MimeType=x-scheme-handler/SmurfsCoin;
+Categories=Office;

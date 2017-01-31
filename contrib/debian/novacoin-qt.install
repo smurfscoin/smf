@@ -1,0 +1,5 @@
+SmurfsCoin-qt usr/bin
+share/pixmaps/SmurfsCoin32.xpm usr/share/pixmaps
+share/pixmaps/SmurfsCoin80.xpm usr/share/pixmaps
+debian/SmurfsCoin-qt.desktop usr/share/applications
+debian/SmurfsCoin-qt.protocol usr/share/kde4/services/
